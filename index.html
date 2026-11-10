@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>SPONGE-SA</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;600;800&display=swap">
+<style>
+:root{--bg:#eaf1ef;--card:#fff;--ink:#14302e;--mut:#5d7471;--line:#cfdcd9;--a:#5b6b7a;--b:#1f8a64;--warn:#c98a00;--bad:#b83a3a;--ok:#1f8a64;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0f1b1a;--card:#172625;--ink:#e3f0ed;--mut:#8fa9a5;--line:#2a3f3d;--a:#9aaebf;--b:#4fc79a;--warn:#e0b040;--bad:#e06a6a;--ok:#4fc79a}}
+:root[data-theme="dark"]{--bg:#0f1b1a;--card:#172625;--ink:#e3f0ed;--mut:#8fa9a5;--line:#2a3f3d;--a:#9aaebf;--b:#4fc79a;--warn:#e0b040;--bad:#e06a6a;--ok:#4fc79a}
+*{box-sizing:border-box}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 "Schibsted Grotesk",system-ui,sans-serif}
+main{max-width:560px;margin:0 auto;padding:16px}
+h1{font-size:26px;line-height:1.15;font-weight:800;margin:8px 0 4px}
+.sub{color:var(--mut);margin:0 0 16px;font-size:14px}
+nav{display:flex;gap:4px;background:var(--line);padding:4px;border-radius:12px;margin-bottom:16px}
+nav button{flex:1;border:0;background:none;color:var(--ink);padding:10px 4px;border-radius:9px;font:600 14px inherit;font-family:inherit;cursor:pointer}
+nav button[aria-selected=true]{background:var(--card)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px;margin-bottom:14px}
+label{display:block;font-size:13px;color:var(--mut);margin:12px 0 4px}
+input,select{width:100%;padding:12px;font:inherit;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:10px}
+input:focus,select:focus,button:focus-visible{outline:2px solid var(--b);outline-offset:1px}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.seg{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.seg button{padding:12px;border-radius:10px;border:2px solid var(--line);background:var(--bg);color:var(--ink);font:600 15px inherit;font-family:inherit;cursor:pointer}
+.seg button[aria-pressed=true][data-m=A]{border-color:var(--a);background:color-mix(in srgb,var(--a) 18%,var(--card))}
+.seg button[aria-pressed=true][data-m=B]{border-color:var(--b);background:color-mix(in srgb,var(--b) 18%,var(--card))}
+.go{width:100%;margin-top:16px;padding:14px;border:0;border-radius:12px;background:var(--b);color:#fff;font:800 16px inherit;font-family:inherit;cursor:pointer}
+.ghost{background:none;border:1px solid var(--line);color:var(--ink);padding:8px 12px;border-radius:9px;font:600 13px inherit;font-family:inherit;cursor:pointer}
+.tablewrap{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:14px}
+th,td{padding:8px 6px;text-align:right;border-bottom:1px solid var(--line);white-space:nowrap}
+th:first-child,td:first-child{text-align:left}
+th{color:var(--mut);font-weight:600;font-size:12px}
+.tag{display:inline-block;padding:2px 8px;border-radius:20px;font-weight:600;font-size:12px;color:#fff}
+.tag.A{background:var(--a)}.tag.B{background:var(--b)}
+.bar{margin:10px 0}
+.bar b{display:flex;justify-content:space-between;font-size:14px;margin-bottom:4px}
+.track{height:22px;background:var(--bg);border-radius:6px;overflow:hidden}
+.fill{height:100%;border-radius:6px;transition:width .4s}
+.risk{padding:12px;border-radius:10px;font-weight:600;margin-top:8px}
+.empty{color:var(--mut);text-align:center;padding:24px 8px}
+.prog{height:8px;background:var(--bg);border-radius:6px;overflow:hidden;margin-top:6px}
+.prog i{display:block;height:100%;background:var(--b)}
+.msg{font-size:13px;color:var(--mut);margin-top:8px}
+</style>
+</head>
+<body>
+<main>
+<h1>SPONGE-SA</h1>
+<p class="sub">Su birikimi ve sel önleme deneyleri. Model A: geçirimsiz zemin, Model B: çim, toprak ve drenaj.</p>
+<nav role="tablist">
+<button role="tab" data-t="gir" aria-selected="true">Veri gir</button>
+<button role="tab" data-t="kayit" aria-selected="false">Kayıtlar</button>
+<button role="tab" data-t="kars" aria-selected="false">Karşılaştır</button>
+</nav>
+
+<section id="gir">
+<div class="card">
+<div class="seg" id="seg">
+<button data-m="A" aria-pressed="true">Model A</button>
+<button data-m="B" aria-pressed="false">Model B</button>
+</div>
+<label for="rep">Tekrar</label>
+<select id="rep"><option>1</option><option>2</option><option>3</option></select>
+<div class="row">
+<div><label for="runoff">Yüzey çıkışı (ml)</label><input id="runoff" type="number" inputmode="decimal" min="0"></div>
+<div><label for="depot">Depo / drenaj (ml)</label><input id="depot" type="number" inputmode="decimal" min="0"></div>
+</div>
+<label for="time">Akışın başlama süresi (sn)</label>
+<input id="time" type="number" inputmode="decimal" min="0">
+<label for="note">Not (isteğe bağlı)</label>
+<input id="note" type="text" placeholder="Örn. çakıl kalınlığı 5 cm, hafif rüzgar">
+<label for="rain">Toplam yağış, her deneyde sabit (ml)</label>
+<input id="rain" type="number" inputmode="decimal" min="1" value="2000">
+<button class="go" id="save">Kaydı ekle</button>
+<div class="msg" id="msg"></div>
+</div>
+<div class="card">
+<b>Hedef: 18 kayıt</b>
+<div class="prog"><i id="pbar"></i></div>
+<div class="msg" id="ptxt"></div>
+</div>
+</section>
+
+<section id="kayit" hidden>
+<div class="card">
+<div class="tablewrap"><table>
+<thead><tr><th>Model</th><th>Tekrar</th><th>Yüzey ml</th><th>Depo ml</th><th>Süre sn</th><th></th></tr></thead>
+<tbody id="tb"></tbody></table></div>
+<div class="empty" id="emp">Henüz kayıt yok. Veri gir sekmesinden ilk ölçümü ekle.</div>
+<div style="display:flex;gap:8px;margin-top:12px">
+<button class="ghost" id="copy">Tabloyu kopyala</button>
+<button class="ghost" id="clear">Hepsini sil</button>
+</div>
+<div class="msg" id="cmsg"></div>
+</div>
+</section>
+
+<section id="kars" hidden>
+<div class="card">
+<b>Yüzey akışı oranı (yağışın yüzdesi)</b>
+<div id="bars"></div>
+<div id="risk"></div>
+</div>
+<div class="card">
+<label for="thr">Yüksek sel riski eşiği (% yüzey akışı)</label>
+<input id="thr" type="number" inputmode="decimal" min="1" max="100" value="50">
+<div class="msg">Eşik bir varsayımdır. Raporda hangi değeri neden seçtiğinizi yazın.</div>
+</div>
+<div class="card" id="avg"></div>
+<div class="card"><b>Rapor özeti</b><p id="sum" style="margin:8px 0"></p><button class="ghost" id="sumcopy">Özeti kopyala</button><div class="msg" id="smsg"></div></div>
+</section>
+</main>
+
+<script>
+(function(){
+var KEY="sungersa_v1",rows=[],model="A";
+function $(i){return document.getElementById(i)}
+try{rows=JSON.parse(localStorage.getItem(KEY)||"[]")}catch(e){rows=[]}
+function persist(){try{localStorage.setItem(KEY,JSON.stringify(rows))}catch(e){}}
+function num(v){var n=parseFloat(v);return isNaN(n)?0:n}
+function avg(m,f){var r=rows.filter(function(x){return x.m===m});if(!r.length)return null;return r.reduce(function(s,x){return s+f(x)},0)/r.length}
+function pct(x){return x.rain>0?x.runoff/x.rain*100:0}
+
+document.querySelectorAll("nav button").forEach(function(b){b.onclick=function(){
+document.querySelectorAll("nav button").forEach(function(o){o.setAttribute("aria-selected",o===b)});
+["gir","kayit","kars"].forEach(function(s){$(s).hidden=s!==b.dataset.t});render()}});
+document.querySelectorAll("#seg button").forEach(function(b){b.onclick=function(){model=b.dataset.m;
+document.querySelectorAll("#seg button").forEach(function(o){o.setAttribute("aria-pressed",o===b)})}});
+
+$("save").onclick=function(){
+var r=$("runoff").value,d=$("depot").value,t=$("time").value;
+if(r===""||d===""||t===""){$("msg").textContent="Üç ölçümü de gir, sonra kaydet.";return}
+rows.push({id:Date.now(),m:model,rep:$("rep").value,runoff:num(r),depot:num(d),time:num(t),rain:num($("rain").value)||2000,note:$("note").value});
+persist();$("runoff").value=$("depot").value=$("time").value=$("note").value="";
+$("msg").textContent="Kaydedildi: Model "+model+", tekrar "+$("rep").value+".";
+var next=+$("rep").value;if(next<3)$("rep").value=next+1;
+render()};
+
+$("clear").onclick=function(){if(rows.length&&confirm("Tüm kayıtlar silinsin mi?")){rows=[];persist();render()}};
+$("copy").onclick=function(){
+var t="Model\tTekrar\tYüzey ml\tDepo ml\tSüre sn\tYağış ml\tNot\n"+rows.map(function(x){return [x.m,x.rep,x.runoff,x.depot,x.time,x.rain,x.note||""].join("\t")}).join("\n");
+try{navigator.clipboard.writeText(t).then(function(){$("cmsg").textContent="Kopyalandı. Excel veya Sheets’e yapıştırabilirsin."},function(){$("cmsg").textContent="Kopyalanamadı."})}catch(e){$("cmsg").textContent="Kopyalanamadı."}};
+$("thr").oninput=render;
+
+function render(){
+var n=rows.length;
+$("pbar").style.width=Math.min(100,n/18*100)+"%";
+$("ptxt").textContent=n+" / 18 kayıt tamamlandı";
+$("emp").hidden=n>0;
+$("tb").innerHTML=rows.map(function(x){return "<tr><td><span class='tag "+x.m+"'>"+x.m+"</span></td><td>"+x.rep+"</td><td>"+x.runoff+"</td><td>"+x.depot+"</td><td>"+x.time+"</td><td><button class='ghost' data-d='"+x.id+"' aria-label='Kaydı sil'>Sil</button></td></tr>"}).join("");
+document.querySelectorAll("[data-d]").forEach(function(b){b.onclick=function(){rows=rows.filter(function(x){return String(x.id)!==b.dataset.d});persist();render()}});
+var pa=avg("A",pct),pb=avg("B",pct),thr=num($("thr").value)||50;
+var h="";
+[["A",pa,"Model A, geçirimsiz"],["B",pb,"Model B, katmanlı"]].forEach(function(o){
+h+="<div class='bar'><b><span>"+o[2]+"</span><span>"+(o[1]===null?"veri yok":o[1].toFixed(1)+"%")+"</span></b><div class='track'><div class='fill' style='width:"+(o[1]||0)+"%;background:var(--"+o[0].toLowerCase()+")'></div></div></div>"});
+$("bars").innerHTML=h;
+var rk="";
+if(pa!==null&&pb!==null){
+var drop=pa>0?(pa-pb)/pa*100:0;
+rk="<div class='risk' style='background:color-mix(in srgb,var(--ok) 18%,var(--card))'>Model B, yüzey akışını Model A’ya göre %"+drop.toFixed(0)+" azalttı.</div>"}
+[["A",pa],["B",pb]].forEach(function(o){if(o[1]===null)return;
+var hi=o[1]>=thr,mid=o[1]>=thr/2,c=hi?"bad":mid?"warn":"ok",t=hi?"yüksek":mid?"orta":"düşük";
+rk+="<div class='risk' style='background:color-mix(in srgb,var(--"+c+") 18%,var(--card))'>Model "+o[0]+": sel riski "+t+"</div>"});
+$("risk").innerHTML=rk||"<div class='empty'>Karşılaştırma için iki modelden de kayıt gerekli.</div>";
+function f(v,d){return v===null?"-":v.toFixed(d)}
+$("avg").innerHTML="<b>Ortalamalar</b><table><thead><tr><th></th><th>Yüzey ml</th><th>Depo ml</th><th>Süre sn</th></tr></thead><tbody>"+
+["A","B"].map(function(m){return "<tr><td><span class='tag "+m+"'>"+m+"</span></td><td>"+f(avg(m,function(x){return x.runoff}),0)+"</td><td>"+f(avg(m,function(x){return x.depot}),0)+"</td><td>"+f(avg(m,function(x){return x.time}),1)+"</td></tr>"}).join("")+"</tbody></table>";
+var ta=avg("A",function(x){return x.time}),tb=avg("B",function(x){return x.time});
+var s="Özet için iki modelden de kayıt ekle.";
+if(pa!==null&&pb!==null){var dr=pa>0?(pa-pb)/pa*100:0;
+s="Aynı yağış koşulunda Model A’da yağışın ortalama %"+pa.toFixed(1)+"’i yüzey akışına dönüşürken, katmanlı Model B’de bu oran %"+pb.toFixed(1)+" oldu (yaklaşık %"+dr.toFixed(0)+" azalma). Akışın başlama süresi A’da ortalama "+ta.toFixed(1)+" sn, B’de "+tb.toFixed(1)+" sn ölçüldü. Sonuçlar ölçekli modelden elde edilmiştir ve eğilimi gösterir."}
+$("sum").textContent=s;
+$("sumcopy").onclick=function(){try{navigator.clipboard.writeText(s).then(function(){$("smsg").textContent="Kopyalandı."},function(){$("smsg").textContent="Kopyalanamadı."})}catch(e){$("smsg").textContent="Kopyalanamadı."}};
+}
+render();
+})();
+</script>
+</body>
+</html>

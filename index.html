@@ -38,44 +38,222 @@ p{margin:0 0 10px}
 .slab{position:absolute;left:8%;right:8%;top:38px;height:12px;background:var(--a);border-radius:3px;transform:rotate(-7deg)}
 .dr{position:absolute;top:6px;font-size:14px}
 .lay{position:absolute;left:8%;right:8%;bottom:6px;top:26px;display:flex;flex-direction:column;border-radius:4px;overflow:hidden}
-.lay<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>SPONGE-SA</title>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;600;800&display=swap">
-<style>
-:root{--bg:#eaf1ef;--card:#fff;--ink:#12302e;--mut:#5d7471;--line:#cfdcd9;--a:#5b6b7a;--b:#1f8a64;--warn:#c98a00;--bad:#d2553f;--ok:#1f8a64;--wat:#2f80d0;
-box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
-@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0d1918;--card:#162624;--ink:#e3f0ed;--mut:#8fa9a5;--line:#2a3f3d;--a:#9aaebf;--b:#4fc79a;--warn:#e0b040;--bad:#ee7a64;--ok:#4fc79a;--wat:#6db3f2}}
-:root[data-theme="dark"]{--bg:#0d1918;--card:#162624;--ink:#e3f0ed;--mut:#8fa9a5;--line:#2a3f3d;--a:#9aaebf;--b:#4fc79a;--warn:#e0b040;--bad:#ee7a64;--ok:#4fc79a;--wat:#6db3f2}
-*{box-sizing:border-box}
-html{scroll-padding-top:env(safe-area-inset-top,0px)}
-body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 "Schibsted Grotesk",system-ui,sans-serif}
-.hero{background:linear-gradient(145deg,#06303c,#0b5a55 60%,#1f8a64);color:#fff;padding:28px 20px 70px;position:relative;overflow:hidden}
-.hero>div{max-width:560px;margin:0 auto;position:relative}
-.badge{display:inline-block;font-size:12px;font-weight:600;letter-spacing:.04em;border:1px solid rgba(255,255,255,.4);padding:4px 10px;border-radius:20px;margin-bottom:12px}
-h1{font-size:40px;line-height:1;font-weight:800;margin:0 0 8px;letter-spacing:-.02em}
-.tag1{font-size:17px;opacity:.92;margin:0;max-width:30ch}
-.waves{position:absolute;left:0;bottom:-1px;width:200%;height:46px;animation:mv 9s linear infinite}
-@keyframes mv{to{transform:translateX(-50%)}}
-@media (prefers-reduced-motion:reduce){.waves{animation:none}}
-.drop{position:absolute;right:20px;top:26px;opacity:.9}
-main{max-width:560px;margin:-34px auto 0;padding:0 16px 40px;position:relative}
-nav{display:flex;gap:4px;background:var(--card);border:1px solid var(--line);padding:4px;border-radius:14px;margin-bottom:16px;box-shadow:0 6px 18px rgba(0,0,0,.08)}
-nav button{flex:1;border:0;background:none;color:var(--mut);padding:10px 2px;border-radius:10px;font:600 13px inherit;font-family:inherit;cursor:pointer}
-nav button[aria-selected=true]{background:var(--b);color:#fff}
-.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px;margin-bottom:14px}
-h2{font-size:20px;line-height:1.2;margin:0 0 8px}
-p{margin:0 0 10px}
-.mut{color:var(--mut);font-size:14px}
-.two{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.mod{border:2px solid var(--line);border-radius:14px;padding:12px;font-size:14px;background:var(--card)}
-.mod.a{border-color:var(--a)}.mod.b{border-color:var(--b)}
-.mod h3{margin:0 0 8px;font-size:15px}
-.dia{height:74px;border-radius:8px;background:var(--bg);position:relative;overflow:hidden;margin-bottom:8px}
-.slab{position:absolute;left:8%;right:8%;top:38px;height:12px;background:var(--a);border-radius:3px;transform:rotate(-7deg)}
-.dr{position:absolute;top:6px;font-size:14px}
-.lay{position:absolute;left:8%;right:8%;bottom:6px;top:26px;display:flex;flex-direction:column;border-radius:4px;overflow:hidden}
-.lay
+.lay i{flex:1}
+.steps{counter-reset:s;list-style:none;padding:0;margin:0}
+.steps li{counter-increment:s;display:flex;gap:12px;align-items:flex-start;margin-bottom:10px}
+.steps li:before{content:counter(s);flex:none;width:28px;height:28px;border-radius:50%;background:var(--b);color:#fff;font-weight:800;display:grid;place-items:center;font-size:14px}
+label{display:block;font-size:13px;color:var(--mut);margin:12px 0 4px}
+input,select{width:100%;padding:12px;font:inherit;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:10px}
+input:focus,select:focus,button:focus-visible{outline:2px solid var(--b);outline-offset:1px}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.seg{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.seg button{padding:12px;border-radius:10px;border:2px solid var(--line);background:var(--bg);color:var(--ink);font:600 15px inherit;font-family:inherit;cursor:pointer}
+.seg button[aria-pressed=true][data-m=A]{border-color:var(--a);background:color-mix(in srgb,var(--a) 18%,var(--card))}
+.seg button[aria-pressed=true][data-m=B]{border-color:var(--b);background:color-mix(in srgb,var(--b) 18%,var(--card))}
+.go{width:100%;margin-top:16px;padding:14px;border:0;border-radius:12px;background:var(--b);color:#fff;font:800 16px inherit;font-family:inherit;cursor:pointer}
+.ghost{background:none;border:1px solid var(--line);color:var(--ink);padding:8px 12px;border-radius:9px;font:600 13px inherit;font-family:inherit;cursor:pointer}
+.tablewrap{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:14px}
+th,td{padding:8px 6px;text-align:right;border-bottom:1px solid var(--line);white-space:nowrap}
+th:first-child,td:first-child{text-align:left}
+th{color:var(--mut);font-weight:600;font-size:12px}
+.tag{display:inline-block;padding:2px 8px;border-radius:20px;font-weight:600;font-size:12px;color:#fff}
+.tag.A{background:var(--a)}.tag.B{background:var(--b)}
+.big{text-align:center;padding:22px 12px;background:linear-gradient(145deg,#06303c,#1f8a64);color:#fff;border-radius:16px;margin-bottom:14px}
+.big b{display:block;font-size:56px;line-height:1;font-weight:800}
+.big span{opacity:.92}
+.st{margin:14px 0}
+.st>b{display:flex;justify-content:space-between;font-size:14px;margin-bottom:5px}
+.stk{display:flex;height:26px;border-radius:8px;overflow:hidden;background:var(--bg)}
+.stk i{display:block;height:100%;transition:width .5s}
+.leg{display:flex;flex-wrap:wrap;gap:12px;font-size:13px;color:var(--mut)}
+.leg s{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:5px;text-decoration:none}
+.risk{padding:12px;border-radius:10px;font-weight:600;margin-top:8px}
+.empty{color:var(--mut);text-align:center;padding:20px 8px}
+.prog{height:8px;background:var(--bg);border-radius:6px;overflow:hidden;margin-top:6px}
+.prog i{display:block;height:100%;background:var(--b);transition:width .4s}
+.msg{font-size:13px;color:var(--mut);margin-top:8px}
+.sim{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}
+.sim div{background:var(--bg);border-radius:12px;padding:12px;text-align:center}
+.sim b{display:block;font-size:22px}
+</style>
+</head>
+<body>
+<header class="hero">
+<svg class="drop" width="46" height="58" viewBox="0 0 46 58" aria-hidden="true"><path d="M23 2C23 2 4 26 4 38a19 19 0 0 0 38 0C42 26 23 2 23 2z" fill="#fff" fill-opacity=".9"/></svg>
+<div>
+<span class="badge">XYLEM INNOVATION CHALLENGE</span>
+<h1>SPONGE-SA</h1>
+<p class="tag1">Let cities soak up rain like a sponge, not flood.</p>
+</div>
+<svg class="waves" viewBox="0 0 1200 46" preserveAspectRatio="none" aria-hidden="true"><path d="M0 24C100 4 200 4 300 24S500 44 600 24 800 4 900 24s200 20 300 0V46H0z" fill="var(--bg)"/></svg>
+</header>
+<main>
+<nav role="tablist">
+<button role="tab" data-t="proje" aria-selected="true">Project</button>
+<button role="tab" data-t="gir" aria-selected="false">Data</button>
+<button role="tab" data-t="sonuc" aria-selected="false">Results</button>
+<button role="tab" data-t="rapor" aria-selected="false">Report</button>
+</nav>
+
+<section id="proje">
+<div class="card">
+<h2>The problem</h2>
+<p>Impermeable surfaces like concrete and asphalt do not absorb rainwater. Water pools quickly on the surface and raises the risk of urban flooding.</p>
+<h2 style="margin-top:14px">The solution</h2>
+<p>A sponge structure of grass, soil, gravel and drainage layers slows the water, holds it and releases it in a controlled way. We measure its effect on a scaled model with two experiments.</p>
+</div>
+<div class="two">
+<div class="mod a"><h3>Model A</h3><div class="dia"><span class="dr" style="left:20%">💧</span><span class="dr" style="left:50%">💧</span><span class="dr" style="left:78%">💧</span><div class="slab"></div></div>Impermeable sloped ground. Water pools and runs off the surface.</div>
+<div class="mod b"><h3>Model B</h3><div class="dia"><span class="dr" style="left:20%">💧</span><span class="dr" style="left:50%">💧</span><span class="dr" style="left:78%">💧</span><div class="lay"><i style="background:#4a9d5b"></i><i style="background:#7a5236"></i><i style="background:#9aa0a6"></i></div></div>Grass, soil, gravel and drainage. Water is held back and slowed.</div>
+</div>
+<div class="card" style="margin-top:14px">
+<h2>How we measure</h2>
+<ol class="steps">
+<li><div><b>Same rainfall</b><div class="mut">We pour the same amount of water onto both models in the same time.</div></div></li>
+<li><div><b>Measure</b><div class="mut">We record surface outflow, drainage and flow start time over 3 repeats.</div></div></li>
+<li><div><b>Compare</b><div class="mut">The sponge effect and flood risk are calculated automatically on the results screen.</div></div></li>
+</ol>
+<button class="go" id="start">Start entering data</button>
+</div>
+</section>
+
+<section id="gir" hidden>
+<div class="card">
+<div class="seg" id="seg">
+<button data-m="A" aria-pressed="true">Model A</button>
+<button data-m="B" aria-pressed="false">Model B</button>
+</div>
+<label for="rep">Repeat</label>
+<select id="rep"><option>1</option><option>2</option><option>3</option></select>
+<div class="row">
+<div><label for="runoff">Surface outflow (ml)</label><input id="runoff" type="number" inputmode="decimal" min="0"></div>
+<div><label for="depot">Tank / drainage (ml)</label><input id="depot" type="number" inputmode="decimal" min="0"></div>
+</div>
+<label for="time">Flow start time (s)</label>
+<input id="time" type="number" inputmode="decimal" min="0">
+<label for="note">Note (optional)</label>
+<input id="note" type="text" placeholder="e.g. gravel layer 5 cm">
+<label for="rain">Total rainfall, fixed for every run (ml)</label>
+<input id="rain" type="number" inputmode="decimal" min="1" value="2000">
+<button class="go" id="save">Add record</button>
+<div class="msg" id="msg"></div>
+</div>
+<div class="card">
+<b>Goal: 18 records</b>
+<div class="prog"><i id="pbar"></i></div>
+<div class="msg" id="ptxt"></div>
+</div>
+</section>
+
+<section id="sonuc" hidden>
+<div id="hero2"></div>
+<div class="card">
+<h2>Where did the rain go?</h2>
+<div id="stks"></div>
+<div class="leg"><span><s style="background:var(--bad)"></s>Surface runoff</span><span><s style="background:var(--wat)"></s>Drainage / tank</span><span><s style="background:var(--b)"></s>Held in the layers</span></div>
+<div id="risk"></div>
+</div>
+<div class="card">
+<h2>What does this mean at real scale?</h2>
+<div class="row">
+<div><label for="area">Area (m²)</label><input id="area" type="number" inputmode="decimal" min="1" value="1000"></div>
+<div><label for="mm">Rainfall (mm)</label><input id="mm" type="number" inputmode="decimal" min="1" value="30"></div>
+</div>
+<div class="sim" id="sim"></div>
+<div class="msg">An estimate that scales the experimental ratios linearly to the area. Soil and slope will change the result in the field.</div>
+</div>
+<div class="card">
+<label for="thr">High flood risk threshold (% surface runoff)</label>
+<input id="thr" type="number" inputmode="decimal" min="1" max="100" value="50">
+<div class="msg">The threshold is an assumption. State in the report which value you chose and why.</div>
+</div>
+<div class="card" id="avg"></div>
+</section>
+
+<section id="rapor" hidden>
+<div class="card"><h2>Report summary</h2><p id="sum"></p><button class="ghost" id="sumcopy">Copy summary</button><div class="msg" id="smsg"></div></div>
+<div class="card">
+<h2>Records</h2>
+<div class="tablewrap"><table>
+<thead><tr><th>Model</th><th>Repeat</th><th>Surface ml</th><th>Tank ml</th><th>Time s</th><th></th></tr></thead>
+<tbody id="tb"></tbody></table></div>
+<div class="empty" id="emp">No records yet.</div>
+<div style="display:flex;gap:8px;margin-top:12px">
+<button class="ghost" id="copy">Copy table</button>
+<button class="ghost" id="clear">Delete all</button>
+</div>
+<div class="msg" id="cmsg"></div>
+</div>
+</section>
+</main>
+
+<script>
+(function(){
+var KEY="sungersa_v1",rows=[],model="A",tabs=["proje","gir","sonuc","rapor"];
+function $(i){return document.getElementById(i)}
+try{rows=JSON.parse(localStorage.getItem(KEY)||"[]")}catch(e){rows=[]}
+function persist(){try{localStorage.setItem(KEY,JSON.stringify(rows))}catch(e){}}
+function num(v){var n=parseFloat(v);return isNaN(n)?0:n}
+function avg(m,f){var r=rows.filter(function(x){return x.m===m});if(!r.length)return null;return r.reduce(function(s,x){return s+f(x)},0)/r.length}
+function pr(x){return x.rain>0?x.runoff/x.rain*100:0}
+function pd(x){return x.rain>0?x.depot/x.rain*100:0}
+function go(t){document.querySelectorAll("nav button").forEach(function(o){o.setAttribute("aria-selected",o.dataset.t===t)});
+tabs.forEach(function(s){$(s).hidden=s!==t});render();window.scrollTo(0,0)}
+document.querySelectorAll("nav button").forEach(function(b){b.onclick=function(){go(b.dataset.t)}});
+$("start").onclick=function(){go("gir")};
+document.querySelectorAll("#seg button").forEach(function(b){b.onclick=function(){model=b.dataset.m;
+document.querySelectorAll("#seg button").forEach(function(o){o.setAttribute("aria-pressed",o===b)})}});
+
+$("save").onclick=function(){
+var r=$("runoff").value,d=$("depot").value,t=$("time").value;
+if(r===""||d===""||t===""){$("msg").textContent="Enter all three measurements, then save.";return}
+rows.push({id:Date.now(),m:model,rep:$("rep").value,runoff:num(r),depot:num(d),time:num(t),rain:num($("rain").value)||2000,note:$("note").value});
+persist();$("runoff").value=$("depot").value=$("time").value=$("note").value="";
+$("msg").textContent="Saved: Model "+model+", repeat "+$("rep").value+".";
+var next=+$("rep").value;if(next<3)$("rep").value=next+1;
+render()};
+$("clear").onclick=function(){if(rows.length&&confirm("Delete all records?")){rows=[];persist();render()}};
+function cp(text,el,ok){try{navigator.clipboard.writeText(text).then(function(){el.textContent=ok},function(){el.textContent="Could not copy."})}catch(e){el.textContent="Could not copy."}}
+$("copy").onclick=function(){cp("Model\tRepeat\tSurface ml\tTank ml\tTime s\tRainfall ml\tNote\n"+rows.map(function(x){return [x.m,x.rep,x.runoff,x.depot,x.time,x.rain,x.note||""].join("\t")}).join("\n"),$("cmsg"),"Copied. You can paste it into Excel or Sheets.")};
+["thr","area","mm"].forEach(function(i){$(i).oninput=render});
+function f(v,d){return v===null?"-":v.toFixed(d)}
+function L(v){return Math.round(v).toLocaleString("en-US")}
+
+function stack(name,m){
+var a=avg(m,pr),d=avg(m,pd);
+if(a===null)return "<div class='st'><b><span>"+name+"</span><span>no data</span></b><div class='stk'></div></div>";
+var t=Math.max(0,100-a-d);
+return "<div class='st'><b><span>"+name+"</span><span>held %"+t.toFixed(0)+"</span></b><div class='stk'><i style='width:"+a+"%;background:var(--bad)'></i><i style='width:"+d+"%;background:var(--wat)'></i><i style='width:"+t+"%;background:var(--b)'></i></div></div>"}
+
+function render(){
+var n=rows.length;
+$("pbar").style.width=Math.min(100,n/18*100)+"%";
+$("ptxt").textContent=n+" / 18 records completed";
+$("emp").hidden=n>0;
+$("tb").innerHTML=rows.map(function(x){return "<tr><td><span class='tag "+x.m+"'>"+x.m+"</span></td><td>"+x.rep+"</td><td>"+x.runoff+"</td><td>"+x.depot+"</td><td>"+x.time+"</td><td><button class='ghost' data-d='"+x.id+"' aria-label='Delete record'>Delete</button></td></tr>"}).join("");
+document.querySelectorAll("[data-d]").forEach(function(b){b.onclick=function(){rows=rows.filter(function(x){return String(x.id)!==b.dataset.d});persist();render()}});
+var pa=avg("A",pr),pb=avg("B",pr),thr=num($("thr").value)||50,ready=pa!==null&&pb!==null;
+var dr=ready&&pa>0?(pa-pb)/pa*100:0;
+$("hero2").innerHTML=ready?"<div class='big'><b>%"+dr.toFixed(0)+"</b><span>The sponge structure reduced surface runoff by this much</span></div>":"<div class='big'><span>Add records for both models to see results.</span></div>";
+$("stks").innerHTML=stack("Model A, impermeable","A")+stack("Model B, sponge structure","B");
+var rk="";
+[["A",pa],["B",pb]].forEach(function(o){if(o[1]===null)return;
+var hi=o[1]>=thr,mid=o[1]>=thr/2,c=hi?"bad":mid?"warn":"ok",t=hi?"high":mid?"medium":"low";
+rk+="<div class='risk' style='background:color-mix(in srgb,var(--"+c+") 18%,var(--card))'>Model "+o[0]+": flood risk "+t+"</div>"});
+$("risk").innerHTML=rk;
+var tot=(num($("area").value)||1000)*(num($("mm").value)||30);
+$("sim").innerHTML=ready?"<div><span class='mut'>Model A runoff</span><b>"+L(tot*pa/100)+" L</b></div><div><span class='mut'>Model B runoff</span><b>"+L(tot*pb/100)+" L</b></div><div style='grid-column:1/3'><span class='mut'>Water the sponge structure removes</span><b style='color:var(--b)'>"+L(tot*(pa-pb)/100)+" L</b></div>":"<div class='empty' style='grid-column:1/3'>Data from both models is needed.</div>";
+$("avg").innerHTML="<b>Averages</b><table><thead><tr><th></th><th>Surface ml</th><th>Tank ml</th><th>Time s</th></tr></thead><tbody>"+
+["A","B"].map(function(m){return "<tr><td><span class='tag "+m+"'>"+m+"</span></td><td>"+f(avg(m,function(x){return x.runoff}),0)+"</td><td>"+f(avg(m,function(x){return x.depot}),0)+"</td><td>"+f(avg(m,function(x){return x.time}),1)+"</td></tr>"}).join("")+"</tbody></table>";
+var ta=avg("A",function(x){return x.time}),tb=avg("B",function(x){return x.time});
+var s="Add records for both models to see the summary.";
+if(ready){s="Under the same rainfall, on average %"+pa.toFixed(1)+" of the rain became surface runoff on Model A, while on the sponge-structured Model B this fell to %"+pb.toFixed(1)+" (about %"+dr.toFixed(0)+" reduction). Flow start time averaged "+ta.toFixed(1)+" s on A and "+tb.toFixed(1)+" s on B. Results come from a scaled model and indicate a trend."}
+$("sum").textContent=s;
+$("sumcopy").onclick=function(){cp(s,$("smsg"),"Copied.")};
+}
+render();
+})();
+</script>
+</body>
+</html>
